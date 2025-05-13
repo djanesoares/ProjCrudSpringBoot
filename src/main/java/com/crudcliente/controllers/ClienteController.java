@@ -5,7 +5,11 @@ import com.crudcliente.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/clients")
@@ -15,17 +19,23 @@ public class ClienteController {
     private ClienteService service;
 
     @GetMapping(value = "/{id}")
-    public ClienteDTO findById(@PathVariable Long id){
-        return service.findById(id);
+    public ResponseEntity<ClienteDTO> findById(@PathVariable Long id){
+        ClienteDTO dto = service.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public Page<ClienteDTO> findAll(Pageable pageable){
-        return service.findAll(pageable);
+    public ResponseEntity<Page<ClienteDTO>> findAll(Pageable pageable){
+        Page<ClienteDTO> dto = service.findAll(pageable);
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ClienteDTO insert(@RequestBody ClienteDTO dto){
-        return service.insert(dto);
+    public ResponseEntity<ClienteDTO> insert(@RequestBody ClienteDTO dto){
+        dto = service.insert(dto);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 }
