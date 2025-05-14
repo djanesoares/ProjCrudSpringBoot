@@ -1,14 +1,22 @@
 package com.crudcliente.dto;
 
 import com.crudcliente.entities.Cliente;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
 public class ClienteDTO {
 
     private Long id;
+    @Size(min = 3, max = 80, message = "Nome precisa ter de 3 a 80 caracteres")
+    @NotBlank(message = "Campo Requerido")
     private String name;
+    @NotEmpty(message = "Dados obrigatório")
     private String cpf;
+    @Positive(message = "valor deve ser positivo")
     private Double income;
     private LocalDate birthDate;
     private Integer children;
