@@ -1,10 +1,7 @@
 package com.crudcliente.dto;
 
 import com.crudcliente.entities.Cliente;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -18,6 +15,7 @@ public class ClienteDTO {
     private String cpf;
     @Positive(message = "valor deve ser positivo")
     private Double income;
+    @PastOrPresent(message = "Data nascimento inválida")
     private LocalDate birthDate;
     private Integer children;
 
